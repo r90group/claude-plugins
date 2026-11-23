@@ -1,0 +1,12 @@
+{
+  "name": "r90",
+  "owner": { "name": "R90" },
+  "description": "R90's Claude Code plugins.",
+  "plugins": [
+    {
+      "name": "habitat",
+      "source": "./plugins/habitat",
+      "description": "Habitat's MCP server and skills: draft a spec, and draft a spec's technical spec with its tech lead."
+    }
+  ]
+}

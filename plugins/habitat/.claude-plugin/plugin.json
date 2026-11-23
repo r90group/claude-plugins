@@ -1,0 +1,15 @@
+{
+  "name": "habitat",
+  "description": "Habitat's MCP server (hosted, OAuth sign-in) and skills for R90 developers. No version is pinned, so every commit to the marketplace reaches everyone through auto-update.",
+  "author": { "name": "R90" },
+  "mcpServers": {
+    "habitat": {
+      "type": "http",
+      "url": "https://apollo.adminifi.com/api/mcp",
+      "oauth": {
+        "clientId": "3124ce03-14db-41db-9f2a-5b61b33e978c",
+        "callbackPort": 47615
+      }
+    }
+  }
+}
