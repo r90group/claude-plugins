@@ -21,14 +21,14 @@ An Owner of R90's Claude organization pushes it once, so nobody installs
 anything:
 
 - claude.ai **Organization settings → Plugins & skills**: add the
-  `r90group/habitat` repository as a marketplace (it holds
+  `r90group/claude-plugins` repository as a marketplace (it holds
   `.claude-plugin/marketplace.json`), enable `habitat@r90`, auto-update on.
 - Or the same in managed settings:
 
 ```json
 {
   "extraKnownMarketplaces": {
-    "r90": { "source": { "source": "github", "repo": "r90group/habitat" }, "autoUpdate": true }
+    "r90": { "source": { "source": "github", "repo": "r90group/claude-plugins" }, "autoUpdate": true }
   },
   "enabledPlugins": { "habitat@r90": true }
 }
@@ -45,9 +45,18 @@ curl -fsSL https://apollo.adminifi.com/install | bash
 
 On Windows: `irm https://apollo.adminifi.com/install/ps1 | iex`.
 
-It needs git read access to `r90group/habitat` (`gh auth login`, then
-`gh auth setup-git`). The marketplace is a sparse clone: only
-`.claude-plugin/` and `plugins/`, not the app.
+It needs no GitHub account. The marketplace is the public repo
+`r90group/claude-plugins`, which holds only `.claude-plugin/` and `plugins/`:
+the `plugin-marketplace` workflow publishes them there from this repo on every
+`main` commit that changes them (`scripts/publish-plugin-marketplace.sh`,
+deploy key in the `CLAUDE_PLUGINS_DEPLOY_KEY` secret). Edit the plugin here,
+never there.
+
+Machines that added the marketplace from the private app repo
+(`r90group/habitat`) move themselves: the plugin's `migrate-marketplace.sh`
+SessionStart hook, which reaches them through auto-update from the old repo,
+points the marketplace at the public repo and clones it again, keeping the
+installed plugin and its sign-in. Running the installer again does the same.
 
 Sign-in uses a public OAuth client registered on Apollo's Supabase Auth for
 Claude Code (PKCE, no secret, callback `http://localhost:47615/callback`). Its
